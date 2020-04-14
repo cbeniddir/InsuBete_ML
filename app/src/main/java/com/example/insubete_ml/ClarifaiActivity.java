@@ -129,7 +129,7 @@ public class ClarifaiActivity extends AppCompatActivity {
             }
 
             Uri photoURI = FileProvider.getUriForFile(this,
-                    "com.example.insubete_ml_project.fileprovider",
+                    "com.example.insubete_ml.fileprovider",
                     photoFile);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);

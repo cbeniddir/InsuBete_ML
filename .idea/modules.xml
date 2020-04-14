@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/InsuBete_ML.iml" filepath="$PROJECT_DIR$/InsuBete_ML.iml" />
+      <module fileurl="file://$PROJECT_DIR$/InsuBete_ML.iml" filepath="$PROJECT_DIR$/InsuBete_ML.iml" group="InsuBete_ML" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="InsuBete_ML/app" />
     </modules>
   </component>
 </project>

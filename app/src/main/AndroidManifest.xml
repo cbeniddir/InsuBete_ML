@@ -31,7 +31,7 @@
 
             <provider
                 android:name="androidx.core.content.FileProvider"
-                android:authorities="com.example.insubete_ml_project.fileprovider"
+                android:authorities="com.example.insubete_ml.fileprovider"
                 android:exported="false"
                 android:grantUriPermissions="true">
                 <meta-data

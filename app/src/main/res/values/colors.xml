@@ -3,4 +3,10 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="colorStartGradient">#283A8E</color>
+    <color name="colorEndGradient">#384A9A</color>
+    <color name="colorButton">#B5F50057</color>
+    <color name="colorRecycler">#75323235</color>
+    <color name="transparent">#00F50057</color>
+
 </resources>

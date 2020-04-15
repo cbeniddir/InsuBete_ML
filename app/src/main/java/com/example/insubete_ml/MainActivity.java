@@ -11,13 +11,14 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     Button photo;
+    Button manual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        photo = (Button )findViewById(R.id.image);
 
+        photo = (Button)findViewById(R.id.image);
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -25,6 +26,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        manual = (Button)findViewById(R.id.manual);
+        manual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ManualActivity.class));
+            }
+        });
     }
 
 

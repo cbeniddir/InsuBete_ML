@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">InsuBete_ML</string>
+    <string name="photo_button">Take a picture of your plate</string>
+    <string name="manual_button">Enter your ingredients manually</string>
+    <string name="search_hint">Search your food</string>
 </resources>

@@ -13,7 +13,6 @@
         android:id="@+id/bannière"
         android:layout_width="wrap_content"
         android:layout_height="122dp"
-        android:layout_marginTop="100px"
         app:srcCompat="@drawable/banniere3" />
 
     <SearchView
@@ -21,24 +20,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30px"
-        android:layout_marginTop="200px"
+        android:layout_marginTop="50px"
         android:layout_marginRight="30px"
         android:background="@color/colorRecycler" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="350dp"
         android:layout_marginLeft="30px"
+        android:layout_marginTop="50px"
         android:layout_marginRight="30px"
-        android:layout_marginTop="200px"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="226dp"
+            android:layout_width="190dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorRecycler"
+            android:padding="20px"
+            android:layout_marginRight="10dp"/>
+
+        <ListView
+            android:id="@+id/menu"
+            android:layout_width="190dp"
+            android:layout_height="match_parent"
             android:background="@color/colorRecycler"
             android:padding="20px" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/validate"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/home_button"
+        android:text="@string/validate" />
 
 </LinearLayout>

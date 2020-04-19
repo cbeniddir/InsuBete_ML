@@ -48,8 +48,8 @@ public class ManualActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.view);
         menuView = findViewById(R.id.menu);
 
-        //progressBar = findViewById(R.id.progressBar);
-        //wait = findViewById(R.id.wait);
+        progressBar = findViewById(R.id.progressBar);
+        wait = findViewById(R.id.wait);
 
         String URL = "https://bikashthapa01.github.io/excel-reader-android-app/story.xls";
 
@@ -76,8 +76,8 @@ public class ManualActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 Toast.makeText(ManualActivity.this, "Error in Downloading Excel File", Toast.LENGTH_SHORT).show();
-                //wait.setVisibility(View.GONE);
-                //progressBar.setVisibility(View.GONE);
+                wait.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

@@ -8,5 +8,5 @@
     <color name="colorButton">#B5F50057</color>
     <color name="colorRecycler">#75323235</color>
     <color name="transparent">#00F50057</color>
-
+    <color name="progressBar">#FFFFFF</color>
 </resources>

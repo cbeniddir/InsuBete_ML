@@ -10,8 +10,11 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +35,7 @@ import clarifai2.dto.prediction.Concept;
 
 public class ClarifaiActivity extends AppCompatActivity {
 
-    String api_key = "2cb3a797413b46df82292964d33d4398";
+    String api_key = "f50c24a977bb49318a2f3ad3b2440b22";
     private static final int REQUEST_TAKE_PHOTO = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private String photoPath = null;
@@ -40,6 +43,9 @@ public class ClarifaiActivity extends AppCompatActivity {
     ImageView imageView;
     ListView listView;
     List<String> ingredients;
+    Button photoButton, validateButton;
+    ProgressBar progressBar;
+    TextView wait;
     //In case we would like remove doubles :
     // ArrayList<String> ArrayLabels;
 
@@ -48,6 +54,9 @@ public class ClarifaiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clarifai);
         ingredients = new ArrayList<>();
+
+        progressBar = findViewById(R.id.progressBar);
+        wait = findViewById(R.id.wait);
     }
 
     private class ClarifaiTask extends AsyncTask<File, Void, ArrayList<String>> {
@@ -88,27 +97,41 @@ public class ClarifaiActivity extends AppCompatActivity {
         protected void onPostExecute(final ArrayList<String> ObjectLabels) {
             //Displaying predicted labels
             listView = (ListView) findViewById(R.id.labels);
+            imageView = (ImageView) findViewById(R.id.image);
+
+            wait.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+            imageView.setVisibility(View.VISIBLE);
+
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ClarifaiActivity.this,android.R.layout.simple_list_item_1, ObjectLabels);
             listView.setAdapter(arrayAdapter);
-
-            // ListView setOnItemClickListener function apply here.
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
             {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // TODO Auto-generated method stub
+                    // TODO if item is already in the list
                     ingredients.add(ObjectLabels.get(position));
+                    view.setBackgroundColor(0xB5F50057);
+                    view.setEnabled(false);
+
                     for(int i = 0; i < ingredients.size(); i++) {
                         System.out.println(ingredients.get(i));
+                    }
+                    if(ingredients.isEmpty()){
+                        validateButton.setEnabled(false);
+                        validateButton.setBackgroundColor(0xB8B8D1);
                     }
                     Toast.makeText(ClarifaiActivity.this, ObjectLabels.get(position), Toast.LENGTH_SHORT).show();
                 }
             });
 
             //Displaying the picture which has been taken
-            imageView = (ImageView) findViewById(R.id.image);
             imageView.setImageBitmap(bitmap);
+
+            validateButton = (Button) findViewById(R.id.validate);
+            validateButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -117,8 +140,13 @@ public class ClarifaiActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         // If we've taken a photo, send it off to Clarifai to check
+
         if (photoPath != null) {
             new ClarifaiTask().execute(new File(photoPath));
+            photoButton = (Button) findViewById(R.id.photoButton);
+            photoButton.setVisibility(View.GONE);
+            wait.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
     }
 

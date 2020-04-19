@@ -42,7 +42,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 // Here You Do Your Click Magic
-                System.out.println("ON CLICK MOTHERFUCKER");
+                System.out.println(v);
             };
         });
     }

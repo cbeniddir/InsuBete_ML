@@ -2,6 +2,7 @@ package com.example.insubete_ml;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,11 +30,15 @@ public class ManualActivity extends AppCompatActivity {
     Workbook workbook;
     AsyncHttpClient asyncHttpClient;
     RecyclerView recyclerView;
+    ListView menuView;
+
     Adapter adapter;
     List<String> names;
     List<String> gis;
     ProgressBar progressBar;
     TextView wait;
+    List<String> ingredients;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,8 @@ public class ManualActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manual);
 
         recyclerView = findViewById(R.id.view);
+        menuView = findViewById(R.id.menu);
+
         //progressBar = findViewById(R.id.progressBar);
         //wait = findViewById(R.id.wait);
 
@@ -48,6 +55,7 @@ public class ManualActivity extends AppCompatActivity {
 
         names = new ArrayList<>();
         gis = new ArrayList<>();
+        ingredients = new ArrayList<>();
 
 
 //        // checking if the excel file has new content

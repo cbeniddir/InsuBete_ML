@@ -8,9 +8,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -37,15 +39,15 @@ public class ClarifaiActivity extends AppCompatActivity {
     Bitmap bitmap;
     ImageView imageView;
     ListView listView;
+    List<String> ingredients;
     //In case we would like remove doubles :
     // ArrayList<String> ArrayLabels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clarifai);
-
+        ingredients = new ArrayList<>();
     }
 
     private class ClarifaiTask extends AsyncTask<File, Void, ArrayList<String>> {
@@ -83,18 +85,31 @@ public class ClarifaiActivity extends AppCompatActivity {
             return Labels;
         }
 
-        protected void onPostExecute(ArrayList<String> ObjectLabels) {
+        protected void onPostExecute(final ArrayList<String> ObjectLabels) {
             //Displaying predicted labels
             listView = (ListView) findViewById(R.id.labels);
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ClarifaiActivity.this,android.R.layout.simple_list_item_1, ObjectLabels);
             listView.setAdapter(arrayAdapter);
 
+            // ListView setOnItemClickListener function apply here.
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // TODO Auto-generated method stub
+                    ingredients.add(ObjectLabels.get(position));
+                    for(int i = 0; i < ingredients.size(); i++) {
+                        System.out.println(ingredients.get(i));
+                    }
+                    Toast.makeText(ClarifaiActivity.this, ObjectLabels.get(position), Toast.LENGTH_SHORT).show();
+                }
+            });
+
             //Displaying the picture which has been taken
             imageView = (ImageView) findViewById(R.id.image);
             imageView.setImageBitmap(bitmap);
-
         }
-
     }
 
 

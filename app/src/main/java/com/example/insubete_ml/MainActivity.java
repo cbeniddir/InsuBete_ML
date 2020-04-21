@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button photo;
     Button manual;
+    Button manualprediction;
 
 
     @Override
@@ -34,6 +35,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ManualActivity.class));
             }
         });
+
+        manualprediction = (Button)findViewById(R.id.manualprediction);
+        manualprediction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PredictActivity.class));
+            }
+        });
+
     }
 
 

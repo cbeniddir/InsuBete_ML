@@ -74,9 +74,10 @@ public class ClarifaiActivity extends AppCompatActivity {
             //Make prediction for each image in parameters
             for (File image : images) {
                 bitmap = BitmapFactory.decodeFile(image.getPath());
-                Model<Concept> generalModel = client.getDefaultModels().generalModel();
+                Model<Concept> generalModel = client.getDefaultModels().foodModel();
                 PredictRequest<Concept> request = generalModel.predict().withInputs(
-                        ClarifaiInput.forImage(image)
+                        ClarifaiInput.forImage("https://samples.clarifai.com/food.jpg")
+
                 );
                 List<ClarifaiOutput<Concept>> result = request.executeSync().get();
 

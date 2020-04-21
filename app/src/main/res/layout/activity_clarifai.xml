@@ -24,6 +24,7 @@
         android:background="@drawable/home_button"
         android:onClick="takePicture"
         android:text="Press to take picture"
+        android:text="@string/open_camera"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

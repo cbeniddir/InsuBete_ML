@@ -12,53 +12,49 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
-    private List<String> names,gis;
+public class QuantityAdapter extends RecyclerView.Adapter<QuantityAdapter.ViewHolder> {
+    private List<String> ingredients;
     private LayoutInflater inflater;
 
-    Adapter(Context context, List<String> names,List<String> gis){
-        Log.d("data", "titles -> "+names);
-        this.names = names;
-        this.gis = gis;
+    QuantityAdapter(Context context, List<String> ingredients){
+        Log.d("data", "titles -> "+ingredients);
+        this.ingredients = ingredients;
         this.inflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.food_items,parent,false);
+        View view = inflater.inflate(R.layout.quantity_items,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String name = names.get(position);
-        String gi = gis.get(position);
+        String name = ingredients.get(position);
 
         holder.name.setText(name);
-        holder.gi.setText(gi);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Here You Do Your Click Magic
                 System.out.println(v);
-            };
+            }
         });
     }
 
     @Override
     public int getItemCount() {
-        return names.size();
+        return ingredients.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name,gi;
+        TextView name;
         View mView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
-            gi = itemView.findViewById(R.id.glycemic_index);
             mView = itemView;
         }
     }

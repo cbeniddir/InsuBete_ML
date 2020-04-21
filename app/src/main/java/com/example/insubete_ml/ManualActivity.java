@@ -1,7 +1,10 @@
 package com.example.insubete_ml;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,12 +35,13 @@ public class ManualActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ListView menuView;
 
-    Adapter adapter;
+    ManualAdapter manualAdapter;
     List<String> names;
     List<String> gis;
     ProgressBar progressBar;
     TextView wait;
-    List<String> ingredients;
+    ArrayList<String> ingredients;
+    Button next;
 
 
     @Override
@@ -50,6 +54,15 @@ public class ManualActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         wait = findViewById(R.id.wait);
+        next = (Button)findViewById(R.id.validate);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ManualActivity.this, QuantityActivity.class);
+                intent.putStringArrayListExtra("INGREDIENTS_LIST", ingredients);
+                startActivity(intent);
+            }
+        });
 
         String URL = "https://bikashthapa01.github.io/excel-reader-android-app/story.xls";
 
@@ -101,6 +114,25 @@ public class ManualActivity extends AppCompatActivity {
                         }
 
                         showData();
+                        recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                        {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                // TODO if item is already in the list
+                                ingredients.add(ObjectLabels.get(position));
+                                view.setBackgroundColor(0xB5F50057);
+                                view.setEnabled(false);
+
+                                for(int i = 0; i < ingredients.size(); i++) {
+                                    System.out.println(ingredients.get(i));
+                                }
+                                if(ingredients.isEmpty()){
+                                    validateButton.setEnabled(false);
+                                    validateButton.setBackgroundColor(0xB8B8D1);
+                                }
+                                Toast.makeText(ClarifaiActivity.this, ObjectLabels.get(position), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (BiffException e) {
@@ -112,7 +144,7 @@ public class ManualActivity extends AppCompatActivity {
     }
         private void showData() {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            adapter = new Adapter(this, names, gis);
-            recyclerView.setAdapter(adapter);
+            manualAdapter = new ManualAdapter(this, names, gis);
+            recyclerView.setAdapter(manualAdapter);
         }
 }

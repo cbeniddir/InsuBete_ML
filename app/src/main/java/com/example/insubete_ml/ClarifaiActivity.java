@@ -57,6 +57,13 @@ public class ClarifaiActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         wait = findViewById(R.id.wait);
+        validateButton = (Button)findViewById(R.id.validate);
+        validateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ClarifaiActivity.this, QuantityActivity.class));
+            }
+        });
     }
 
     private class ClarifaiTask extends AsyncTask<File, Void, ArrayList<String>> {
@@ -74,9 +81,9 @@ public class ClarifaiActivity extends AppCompatActivity {
             //Make prediction for each image in parameters
             for (File image : images) {
                 bitmap = BitmapFactory.decodeFile(image.getPath());
-                Model<Concept> generalModel = client.getDefaultModels().generalModel();
-                PredictRequest<Concept> request = generalModel.predict().withInputs(
-                        ClarifaiInput.forImage(image)
+                Model<Concept> foodmodel = client.getDefaultModels().generalModel();
+                PredictRequest<Concept> request = foodmodel.predict().withInputs(
+                        ClarifaiInput.forImage("https://samples.clarifai.com/food.jpg")
                 );
                 List<ClarifaiOutput<Concept>> result = request.executeSync().get();
 
@@ -140,7 +147,6 @@ public class ClarifaiActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         // If we've taken a photo, send it off to Clarifai to check
-
         if (photoPath != null) {
             new ClarifaiTask().execute(new File(photoPath));
             photoButton = (Button) findViewById(R.id.photoButton);

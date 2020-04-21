@@ -27,6 +27,7 @@
             android:background="@drawable/home_button"
             android:drawableTop="@drawable/photo_icon"
             android:drawingCacheQuality="auto"
+            android:onClick="takePicture"
             android:padding="50px"
             android:text="@string/photo_button" />
 

@@ -19,29 +19,36 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 import clarifai2.api.ClarifaiBuilder;
 import clarifai2.api.ClarifaiClient;
+import clarifai2.api.ClarifaiResponse;
 import clarifai2.api.request.model.PredictRequest;
+import clarifai2.dto.input.ClarifaiImage;
 import clarifai2.dto.input.ClarifaiInput;
+import clarifai2.dto.model.ConceptModel;
+import clarifai2.dto.model.DefaultModels;
 import clarifai2.dto.model.Model;
 import clarifai2.dto.model.output.ClarifaiOutput;
 import clarifai2.dto.prediction.Concept;
+import clarifai2.dto.prediction.Prediction;
 
 public class ClarifaiActivity extends AppCompatActivity {
 
-    String api_key = "2cb3a797413b46df82292964d33d4398";
+    ImageView imageView;
+    ListView listView;
+    String imagePath;
+    Bitmap bitmap;
+    ArrayList<String> ArrayLabels;
+    String api_key = "2f2387f3a53049138af489e03fbf2f4f";
     private static final int REQUEST_TAKE_PHOTO = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private String photoPath = null;
-    Bitmap bitmap;
-    ImageView imageView;
-    ListView listView;
-    //In case we would like remove doubles :
-    // ArrayList<String> ArrayLabels;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,53 +58,66 @@ public class ClarifaiActivity extends AppCompatActivity {
 
     }
 
+
     private class ClarifaiTask extends AsyncTask<File, Void, ArrayList<String>> {
 
         @Override
         protected ArrayList<String> doInBackground(File... images) {
 
             //In case we would like remove doubles :
-            //HashSet<String> Labels = new HashSet<>();
-            ArrayList<String> Labels = new ArrayList<String>();
+            HashSet<String> Labels = new HashSet<>();
+            //ArrayList<String> Labels = new ArrayList<String>();
 
             ClarifaiClient client = new ClarifaiBuilder(api_key).buildSync();
-            List<ClarifaiOutput<Concept>> predictionResults;
-
             //Make prediction for each image in parameters
             for (File image : images) {
-                bitmap = BitmapFactory.decodeFile(image.getPath());
-                Model<Concept> generalModel = client.getDefaultModels().generalModel();
-                PredictRequest<Concept> request = generalModel.predict().withInputs(
-                        ClarifaiInput.forImage(image)
+                imagePath = image.getPath();
+                //Model<Concept> model = client.getModelByID("bd367be194cf45149e75f01d59f77ba7");
+                Model<Concept> foodmodel = client.getDefaultModels().generalModel();
+                PredictRequest<Concept> foodrequest = foodmodel.predict().withInputs(
+                        ClarifaiInput.forImage("https://samples.clarifai.com/food.jpg")
                 );
-                List<ClarifaiOutput<Concept>> result = request.executeSync().get();
+
+                try {
+                    ClarifaiResponse<List<ClarifaiOutput<Concept>>> test = foodrequest.executeSync();
+                    List<ClarifaiOutput<Concept>> foodresult = test.get();
+                    System.out.println("test");
+                    for (int i = 0; i < foodresult.size(); i++) {
+                        for (int j = 0; j < foodresult.get(i).data().size(); j++) {
+                            String labelResult = foodresult.get(i).data().get(j).name();
+                            Labels.add(labelResult);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+
+
+                /*client.getDefaultModels().foodModel()
+                        .predict().withInputs(ClarifaiInput.forImage("https://portal.clarifai.com/cms-assets/20180320212157/food-001.jpg").executeSync().get();*/
 
                 //Get Labels of each object and put it in an ArrayList<String>
-                for(int i = 0; i < result.size(); i++){
-                    for(int j = 0; j < result.get(i).data().size(); j++){
-                        String labelResult = result.get(i).data().get(j).name();
-                        Labels.add(labelResult);
-                    }
-                }
+
                 //In case we would like to remove doubles :
-                // ArrayLabels = new ArrayList<>(Labels);
+                ArrayLabels = new ArrayList<String>(Labels);
             }
 
-            return Labels;
+            return ArrayLabels;
         }
 
         protected void onPostExecute(ArrayList<String> ObjectLabels) {
             //Displaying predicted labels
-            listView = (ListView) findViewById(R.id.labels);
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ClarifaiActivity.this,android.R.layout.simple_list_item_1, ObjectLabels);
-            listView.setAdapter(arrayAdapter);
-
+            bitmap = BitmapFactory.decodeFile(imagePath);
             //Displaying the picture which has been taken
             imageView = (ImageView) findViewById(R.id.image);
             imageView.setImageBitmap(bitmap);
 
-        }
+            listView = (ListView) findViewById(R.id.labels);
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ClarifaiActivity.this, android.R.layout.simple_list_item_1, ObjectLabels);
+            listView.setAdapter(arrayAdapter);
 
+        }
     }
 
     @Override
@@ -131,10 +151,11 @@ public class ClarifaiActivity extends AppCompatActivity {
             Uri photoURI = FileProvider.getUriForFile(this,
                     "com.example.insubete_ml.fileprovider",
                     photoFile);
+
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
+
+
     }
-
-
 }

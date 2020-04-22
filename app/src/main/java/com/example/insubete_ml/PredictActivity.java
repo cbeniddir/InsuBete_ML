@@ -24,8 +24,6 @@ public class PredictActivity extends AppCompatActivity {
 
     private static TensorFlowInferenceInterface tensorFlowInferenceInterface;
 
-
-    private EditText editText;
     private TextView textView;
 
     @Override
@@ -33,7 +31,6 @@ public class PredictActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_predict);
 
-        editText = findViewById(R.id.edit_text);
         textView = findViewById(R.id.text_view);
 
         tensorFlowInferenceInterface = new TensorFlowInferenceInterface(getAssets(), MODEL_NAME);
@@ -43,12 +40,6 @@ public class PredictActivity extends AppCompatActivity {
         textView.setText(results);
 
     }
-
-   /* public void pressButton(View view) {
-        float input = Float.parseFloat(editText.getText().toString());
-        String results = performInference(input);
-        textView.setText(results);
-    }*/
 
     private String performInference(float input) {
         float[] floatArray = {input};

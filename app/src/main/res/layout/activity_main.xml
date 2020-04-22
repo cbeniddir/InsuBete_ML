@@ -41,15 +41,5 @@
             android:padding="50px"
             android:text="@string/manual_button" />
 
-        <Button
-            android:id="@+id/manualprediction"
-            android:layout_width="match_parent"
-            android:layout_height="118dp"
-            android:layout_marginTop="50px"
-            android:background="@drawable/home_button"
-            android:drawableTop="@drawable/text_icon"
-            android:drawingCacheQuality="auto"
-            android:padding="50px"
-            android:text="Enter the GI of your meal" />
     </LinearLayout>
 </LinearLayout>

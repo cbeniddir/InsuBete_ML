@@ -1,6 +1,8 @@
 package com.example.insubete_ml;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -16,6 +18,7 @@ import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,8 +54,6 @@ public class ManualActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         wait = findViewById(R.id.wait);
 
-        String URL = "https://bikashthapa01.github.io/excel-reader-android-app/story.xls";
-
         names = new ArrayList<>();
         gis = new ArrayList<>();
         ingredients = new ArrayList<>();
@@ -71,48 +72,33 @@ public class ManualActivity extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
 
-        asyncHttpClient = new AsyncHttpClient();
-        asyncHttpClient.get(URL, new FileAsyncHttpResponseHandler(this) {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                Toast.makeText(ManualActivity.this, "Error in Downloading Excel File", Toast.LENGTH_SHORT).show();
-                wait.setVisibility(View.GONE);
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, File file) {
-                WorkbookSettings ws = new WorkbookSettings();
-                ws.setGCDisabled(true);
-                if(file != null){
-                    //text.setText("Success, DO something with the file.");
-                    //wait.setVisibility(View.GONE);
-                    //progressBar.setVisibility(View.GONE);
-
                     try {
-                        workbook = Workbook.getWorkbook(file);
-                        Sheet sheet = workbook.getSheet(0);
+                        AssetManager am = getAssets();
+                        InputStream ls=am.open("basicfood.xls");
+
+                        Workbook wb = Workbook.getWorkbook(ls);
+                        //workbook = Workbook.getWorkbook(file);
+                        Sheet sheet = wb.getSheet(0);
                         //Cell[] row = sheet.getRow(1);
                         //text.setText(row[0].getContents());
-                        for(int i = 0;i< sheet.getRows();i++){
+                        int rows = sheet.getRows();
+                        int cols = sheet.getColumns();
+
+                        for(int i = 1;i< rows-1;i++){
                             Cell[] row = sheet.getRow(i);
                             names.add(row[0].getContents());
+                            Log.d("data", "titles -> "+"add names ok");
                             gis.add(row[1].getContents());
                         }
 
-                        showData();
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        adapter = new Adapter(this, names, gis);
+                        recyclerView.setAdapter(adapter);
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (BiffException e) {
                         e.printStackTrace();
                     }
                 }
-            }
-        });
-    }
-        private void showData() {
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            adapter = new Adapter(this, names, gis);
-            recyclerView.setAdapter(adapter);
-        }
 }

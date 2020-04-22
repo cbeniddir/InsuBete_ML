@@ -12,6 +12,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button photo;
     Button manual;
+    Button manualprediction;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

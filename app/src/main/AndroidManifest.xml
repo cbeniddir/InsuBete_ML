@@ -29,6 +29,9 @@
 
             <activity android:name=".ClarifaiActivity"></activity>
             <activity android:name=".ManualActivity"></activity>
+            <activity android:name=".QuantityActivity"></activity>
+            <activity android:name=".PredictActivity"></activity>
+
 
             <provider
                 android:name="androidx.core.content.FileProvider"

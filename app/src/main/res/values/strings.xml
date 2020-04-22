@@ -4,4 +4,7 @@
     <string name="manual_button">Enter your ingredients manually</string>
     <string name="open_camera">Open camera</string>
     <string name="search_hint">Search your food</string>
+    <string name="validate">Validate</string>
+    <string name="gi_label">GI:</string>
+    <string name="progressText">Please wait while we are analyzing your plate</string>
 </resources>

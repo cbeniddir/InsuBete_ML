@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,7 +43,7 @@ public class ClarifaiActivity extends AppCompatActivity {
     Bitmap bitmap;
     ImageView imageView;
     ListView listView;
-    List<String> ingredients;
+    ArrayList<String> ingredients;
     Button photoButton, validateButton;
     ProgressBar progressBar;
     TextView wait;
@@ -133,6 +134,17 @@ public class ClarifaiActivity extends AppCompatActivity {
 
             validateButton = (Button) findViewById(R.id.validate);
             validateButton.setVisibility(View.VISIBLE);
+
+            validateButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ClarifaiActivity.this, QuantityActivity.class);
+                    intent.putExtra("INGREDIENTS_LIST", ingredients);
+                    startActivity(intent);
+                }
+            });
+
+
         }
     }
 

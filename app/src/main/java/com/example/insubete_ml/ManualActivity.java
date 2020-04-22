@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -94,6 +95,7 @@ public class ManualActivity extends AppCompatActivity {
                         recyclerView.setLayoutManager(new LinearLayoutManager(this));
                         adapter = new Adapter(this, names, gis);
                         recyclerView.setAdapter(adapter);
+
 
                     } catch (IOException e) {
                         e.printStackTrace();

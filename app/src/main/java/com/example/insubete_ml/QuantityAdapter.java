@@ -1,6 +1,7 @@
 package com.example.insubete_ml;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -11,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -37,6 +40,8 @@ public class QuantityAdapter extends RecyclerView.Adapter<QuantityAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.name.setText(editModelArrayList.get(position).getName());
         holder.quantity.setText(editModelArrayList.get(position).getQuantity());
+        holder.parent.setBackgroundColor(Color.parseColor("#00F50057"));
+        holder.card.setBackgroundColor(Color.parseColor("#00F50057"));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,10 +75,18 @@ public class QuantityAdapter extends RecyclerView.Adapter<QuantityAdapter.ViewHo
         TextView name;
         EditText quantity;
         View mView;
+        ConstraintLayout parent;
+        CardView card;
+
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
             quantity = itemView.findViewById(R.id.quantityfoodtext);
+            parent=itemView.findViewById(R.id.quantity_items_layout);
+            card=itemView.findViewById(R.id.quantity_items_card);
+
+
             mView = itemView;
 
             quantity.addTextChangedListener(new TextWatcher() {

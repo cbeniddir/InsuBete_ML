@@ -84,7 +84,7 @@ public class ManualActivity extends AppCompatActivity {
                         int rows = sheet.getRows();
                         int cols = sheet.getColumns();
 
-                        for(int i = 1;i< rows-1;i++){
+                        for(int i = 1;i< rows;i++){
                             Cell[] row = sheet.getRow(i);
                             names.add(row[0].getContents());
                             Log.d("data", "titles -> "+"add names ok");

@@ -1,5 +1,6 @@
 package com.example.insubete_ml;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -60,11 +62,21 @@ public class QuantityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("data", "titles -> "+ Arrays.toString(editModelArrayList.toArray()));
+                getIngredientModelValues(editModelArrayList);
 
-                //computeGlycemicIndex();
-                //getItemViews();
-                //final ViewHolder holder = recyclerView.getChildViewHolder(recyclerView.getChildAt(i));
-                //new QuantityAdapter(getApplicationContext(), ingredients).getQuantities()
+                for(int i = 0; i < editModelArrayList.size(); i++){
+                    System.out.println("CHO "+ editModelArrayList.get(i).getChoQuantity());
+                    System.out.println("GI" + editModelArrayList.get(i).getGi());
+                    System.out.println("Serving Size" + editModelArrayList.get(i).getServingSize());
+                }
+
+                float finalGI = computeGlycemicIndex(editModelArrayList);
+                System.out.println("final GI" + finalGI);
+
+                Intent intent = new Intent(getBaseContext(), PredictActivity.class);
+                intent.putExtra("FINAL_IG",finalGI);
+                startActivity(intent);
+
             }
         });
 
@@ -77,22 +89,75 @@ public class QuantityActivity extends AppCompatActivity {
             IngredientModel editModel = new IngredientModel();
             editModel.setName((String.valueOf(item)));
             editModel.setQuantity("0");
+            editModel.setServingSize("0");
+            editModel.setGi("0");
+            editModel.setChoQuantity("0");
+            editModel.setGiByQuantity("0");
             list.add(editModel);
         }
-
         return list;
     }
 
-    public float computeGlycemicIndex(){
+    //To compute the GI of the entire meal
+    public float computeGlycemicIndex(ArrayList<IngredientModel>list_ingredients){
         //First, we have to compute glycemic index for each aliment of the meal, for the quantity eaten
+        float GITotal = 0.0f;
 
+        for(IngredientModel ingredient : list_ingredients){
+            //Parse en float des éléments pour calculer la bonne quantité de cho
+            float quantity = Float.parseFloat(ingredient.getQuantity());
+            float quantityCHO = Float.parseFloat(ingredient.getChoQuantity());
+            float quantityServing = Float.parseFloat(ingredient.getServingSize());
 
-        //After this, we'll sum every GI of the aliments that are composing the meal in order to compute the total GI
+            //Calcul de la bonne quantité de Cho
+            float quantityFinaleCHO = (quantity * quantityCHO)/quantityServing;
+            float giIngredientStandard = Float.parseFloat(ingredient.getGi());
+
+            if(giIngredientStandard != 0) {
+                float giIngredientByQuantity = (quantityFinaleCHO / quantity) * giIngredientStandard;
+                GITotal += giIngredientByQuantity;
+            }
+
+        }
 
         //return the GI of the entire meal
-        return 0.0f;
+        return GITotal;
     }
 
+    public ArrayList<IngredientModel> getIngredientModelValues(ArrayList<IngredientModel> list_ingredient) {
 
+        try{
+            AssetManager am = getAssets();
+            InputStream ls=am.open("basicfood.xls");
+
+            Workbook wb = Workbook.getWorkbook(ls);
+            //workbook = Workbook.getWorkbook(file);
+            Sheet sheet = wb.getSheet(0);
+            int rows = sheet.getRows();
+            int cols = sheet.getColumns();
+
+            //On parcourt la liste des ingrédients sélectionnés
+            for(int j = 0; j < list_ingredient.size(); j++) {
+                //On parcourt les lignes jusqu'à retrouver chaque ingrédient de la liste dans l'excel
+                for (int i = 1; i < rows - 1; i++) {
+                    Cell[] row = sheet.getRow(i);
+                    if (row[0].getContents().equals(list_ingredient.get(j).getName())) {
+
+                            list_ingredient.get(j).setGi(row[1].getContents());
+                            list_ingredient.get(j).setServingSize(row[2].getContents());
+                            list_ingredient.get(j).setChoQuantity(row[3].getContents());
+
+                    }
+
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BiffException e) {
+            e.printStackTrace();
+        }
+                return list_ingredient;
+    }
 
 }

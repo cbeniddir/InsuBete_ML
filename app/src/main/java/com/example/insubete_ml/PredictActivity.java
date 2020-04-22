@@ -37,13 +37,18 @@ public class PredictActivity extends AppCompatActivity {
         textView = findViewById(R.id.text_view);
 
         tensorFlowInferenceInterface = new TensorFlowInferenceInterface(getAssets(), MODEL_NAME);
+
+        float input = getIntent().getFloatExtra("FINAL_IG",0);
+        String results = performInference(input);
+        textView.setText(results);
+
     }
 
-    public void pressButton(View view) {
+   /* public void pressButton(View view) {
         float input = Float.parseFloat(editText.getText().toString());
         String results = performInference(input);
         textView.setText(results);
-    }
+    }*/
 
     private String performInference(float input) {
         float[] floatArray = {input};

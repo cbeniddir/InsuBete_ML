@@ -2,30 +2,21 @@ package com.example.insubete_ml;
 
 import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.FileAsyncHttpResponseHandler;
-
 import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.msebera.android.httpclient.Header;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -36,6 +27,7 @@ public class ManualActivity extends AppCompatActivity {
     Adapter adapter;
     List<String> names;
     List<String> gis;
+    TextView result,label_result;
 
 
     //Path of our model
@@ -74,10 +66,9 @@ public class ManualActivity extends AppCompatActivity {
             int rows = sheet.getRows();
             int cols = sheet.getColumns();
 
-            for(int i = 0;i< rows;i++){
+            for(int i = 1;i< rows;i++){
                 Cell[] row = sheet.getRow(i);
                 names.add(row[0].getContents());
-                Log.d("data", "titles -> "+"add names ok");
                 gis.add(row[1].getContents());
             }
 
@@ -85,9 +76,7 @@ public class ManualActivity extends AppCompatActivity {
             adapter = new Adapter(this, names, gis);
             recyclerView.setAdapter(adapter);
 
-            editText = findViewById(R.id.edit_text);
-            textView = findViewById(R.id.text_view);
-            textView2= findViewById(R.id.label);
+            editText = findViewById(R.id.input);
 
 
             tensorFlowInferenceInterface = new TensorFlowInferenceInterface(getAssets(), MODEL_NAME);
@@ -114,11 +103,15 @@ public class ManualActivity extends AppCompatActivity {
 
      public void pressButton(View view) {
         float input = Float.parseFloat(editText.getText().toString());
-        String results = performInference(input);
 
-        textView.setVisibility(View.VISIBLE);
-        textView2.setVisibility(View.VISIBLE);
-        textView.setText(results);
+         result = findViewById(R.id.result);
+         label_result= findViewById(R.id.label_result);
+        label_result.setVisibility(View.VISIBLE);
+        result.setVisibility(View.VISIBLE);
+
+         String results = performInference(input);
+
+         result.setText(results);
     }
 
 }

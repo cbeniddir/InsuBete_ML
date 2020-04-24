@@ -1,15 +1,10 @@
 package com.example.insubete_ml;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
-
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 
 public class PredictActivity extends AppCompatActivity {
 
@@ -31,7 +26,7 @@ public class PredictActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_predict);
 
-        textView = findViewById(R.id.text_view);
+        textView = findViewById(R.id.result);
 
         tensorFlowInferenceInterface = new TensorFlowInferenceInterface(getAssets(), MODEL_NAME);
 

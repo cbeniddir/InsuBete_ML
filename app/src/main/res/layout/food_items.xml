@@ -5,23 +5,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="190dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/colorRecycler">
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/food_items_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/colorRecycler">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/food_items_layout"
             android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:background="@color/colorRecycler">
+            android:layout_height="62dp">
 
             <TextView
                 android:id="@+id/name"
@@ -40,7 +39,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/glycemic_index"

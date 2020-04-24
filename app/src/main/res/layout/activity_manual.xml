@@ -15,18 +15,10 @@
         android:layout_height="122dp"
         app:srcCompat="@drawable/banniere3" />
 
-    <SearchView
-        android:id="@+id/search_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30px"
-        android:layout_marginTop="50px"
-        android:layout_marginRight="30px"
-        android:background="@color/colorRecycler" />
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="350dp"
+        android:layout_height="400dp"
         android:layout_marginLeft="30px"
         android:layout_marginTop="50px"
         android:layout_marginRight="30px"
@@ -40,12 +32,50 @@
             android:padding="20px"
             android:layout_marginRight="10dp"/>
 
-        <ListView
+        <LinearLayout
             android:id="@+id/menu"
             android:layout_width="190dp"
             android:layout_height="match_parent"
             android:background="@color/colorRecycler"
-            android:padding="20px" />
+            android:padding="20px"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50px"
+                android:hint="Enter the Glycemic Index of your meal"
+                android:inputType="numberDecimal"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toTopOf="@+id/text_view"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="300px"
+
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:text="Your predicted insuline is:"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+                android:layout_marginTop="30dp"
+                android:textSize="20sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </LinearLayout>
     </LinearLayout>
 
     <Button
@@ -55,6 +85,7 @@
         android:layout_marginLeft="120dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/home_button"
-        android:text="@string/validate" />
+        android:onClick="pressButton"
+        android:text="press to predict"/>
 
 </LinearLayout>

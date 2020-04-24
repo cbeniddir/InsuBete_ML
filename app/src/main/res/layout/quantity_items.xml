@@ -3,25 +3,24 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="400dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/colorRecycler">
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
+        android:id="@+id/quantity_items_card"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/colorRecycler">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/quantity_items_layout"
             android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:background="@color/colorRecycler">
+            android:layout_height="62dp">
 
             <TextView
                 android:id="@+id/name"
@@ -29,9 +28,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="220dp"
-                android:layout_marginRight="220dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:text="Food name"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -42,20 +41,31 @@
 
             <EditText
                 android:id="@+id/quantityfoodtext"
-                android:layout_width="100dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="133dp"
+                android:layout_marginLeft="133dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
                 android:ems="10"
                 android:inputType="number"
-                tools:layout_editor_absoluteX="253dp"
-                tools:layout_editor_absoluteY="9dp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/name"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="52dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="40dp"
                 android:text="gr"
-                tools:layout_editor_absoluteX="353dp"
-                tools:layout_editor_absoluteY="27dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/quantityfoodtext"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

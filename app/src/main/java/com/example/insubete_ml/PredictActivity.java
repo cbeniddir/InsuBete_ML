@@ -59,6 +59,10 @@ public class PredictActivity extends AppCompatActivity {
         float[] results = {0.0f};
         tensorFlowInferenceInterface.fetch(OUTPUT_NODE, results);
 
+        if(results[0] < 0){
+            results[0] = 0;
+        }
+
         return String.valueOf(Math.round(results[0]));
 
     }

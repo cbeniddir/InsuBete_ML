@@ -125,7 +125,6 @@ public class ClarifaiActivity extends AppCompatActivity {
                         validateButton.setEnabled(false);
                         validateButton.setBackgroundColor(0xB8B8D1);
                     }
-                    Toast.makeText(ClarifaiActivity.this, ObjectLabels.get(position), Toast.LENGTH_SHORT).show();
                 }
             });
 
